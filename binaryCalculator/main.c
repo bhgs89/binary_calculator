@@ -4,13 +4,13 @@
 
 int runBinaryToDecial(void) {
     int result = 1;
-    char binary[73];
+    char binary[118];
     bool status = true;
     int error_no = 0;
     
     printf("===============================\n");
     printf("***          No space allowed       ***\n");
-    printf("*** Max number of binary number: 20 ***\n");
+    printf("*** Max number of binary number: 64 ***\n");
     printf("*** Max number of binary points: 52 ***\n");
     printf("Enter binary: ");
     scanf("%s", binary);
@@ -18,11 +18,21 @@ int runBinaryToDecial(void) {
     bool positive = true;
     int pos_idx = 0;
     int neg_idx = 0;
-    int positive_arr[20], negative_arr[52];
+    int positive_arr[64], negative_arr[52];
+    int count_points = 0;
     
-    for (int i = 0; i < 73; i++) {
+    for (int i = 0; i < 118; i++) {
+        if (binary[i] == '.') {
+            count_points++;
+        }
+        
+        if (count_points >= 2) {
+            status = false;            
+            break;
+        }
+        
         if (binary[i] != '0' && binary[i] != '1' && binary[i] != '.') {
-            if ((int)binary[i] != 0 && (int)binary[i] != 72) {
+            if ((int)binary[i] != 0) {
                 status = false;
             }
             break;
@@ -33,13 +43,11 @@ int runBinaryToDecial(void) {
             continue;
         }
         
-        if (positive && pos_idx > 20) {
-            printf("here1");
+        if (positive && pos_idx > 64) {
             status = false;
             error_no = 1;
             break;
         } else if (!positive && neg_idx > 52) {
-            printf("here2");
             status = false;
             error_no = 2;
             break;
