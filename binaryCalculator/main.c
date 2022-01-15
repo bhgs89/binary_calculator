@@ -98,7 +98,7 @@ int runBinaryToDecial(void) {
         result = 0;
         switch (error_no) {
             case 1:
-                printf("Number of binary number exceed 20!!\n");
+                printf("Number of binary number exceed 64!!\n");
                 break;
                 
             case 2:
