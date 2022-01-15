@@ -113,8 +113,185 @@ int runBinaryToDecial(void) {
     return result;
 }
 
-int runDecialToBinary(void) {
-    return 0;
+int runDecimalToBinary(void) {
+    int result = 0;
+    char decimal[42];
+    bool status = true;
+    int error_no = 0;
+    
+    printf("===============================\n");
+    printf("***          No space allowed       ***\n");
+    printf("*** Max number of decimal number: 20 ***\n");
+    printf("*** Max number of decimal points: 20 ***\n");
+    printf("Enter number: ");
+    scanf("%s", decimal);
+    
+    bool positive = true;
+    int pos_idx = 0;
+    int neg_idx = 0;
+    int positive_arr[20], negative_arr[20];
+    int count_points = 0;
+    
+    for (int i = 0; i < 42; i++) {
+        if (decimal[i] == '.') {
+            count_points++;
+        }
+        
+        if (count_points >= 2) {
+            status = false;
+            break;
+        }
+        
+        if (((int)decimal[i] >= 48 && (int)decimal[i] <= 57) || (int)decimal[i] == 46 || (int)decimal[i] == 0) {
+            if (decimal[i] == '.') {
+                positive = false;
+                continue;
+            }
+            
+            if (positive && pos_idx > 20) {
+                status = false;
+                error_no = 1;
+                break;
+            } else if (!positive && neg_idx > 20) {
+                status = false;
+                error_no = 2;
+                break;
+            }
+            
+            if (positive) {
+                switch ((int)decimal[i]) {
+                    case 48:
+                        positive_arr[pos_idx] = 0;
+                        pos_idx++;
+                        break;
+                    case 49:
+                        positive_arr[pos_idx] = 1;
+                        pos_idx++;
+                        break;
+                    case 50:
+                        positive_arr[pos_idx] = 2;
+                        pos_idx++;
+                        break;
+                    case 51:
+                        positive_arr[pos_idx] = 3;
+                        pos_idx++;
+                        break;
+                    case 52:
+                        positive_arr[pos_idx] = 4;
+                        pos_idx++;
+                        break;
+                    case 53:
+                        positive_arr[pos_idx] = 5;
+                        pos_idx++;
+                        break;
+                    case 54:
+                        positive_arr[pos_idx] = 6;
+                        pos_idx++;
+                        break;
+                    case 55:
+                        positive_arr[pos_idx] = 7;
+                        pos_idx++;
+                        break;
+                    case 56:
+                        positive_arr[pos_idx] = 8;
+                        pos_idx++;
+                        break;
+                    case 57:
+                        positive_arr[pos_idx] = 9;
+                        pos_idx++;
+                        break;
+                }
+            } else {
+                switch ((int)decimal[i]) {
+                    case 48:
+                        negative_arr[neg_idx] = 0;
+                        neg_idx++;
+                        break;
+                    case 49:
+                        negative_arr[neg_idx] = 1;
+                        neg_idx++;
+                        break;
+                    case 50:
+                        negative_arr[neg_idx] = 2;
+                        neg_idx++;
+                        break;
+                    case 51:
+                        negative_arr[neg_idx] = 3;
+                        neg_idx++;
+                        break;
+                    case 52:
+                        negative_arr[neg_idx] = 4;
+                        neg_idx++;
+                        break;
+                    case 53:
+                        negative_arr[neg_idx] = 5;
+                        neg_idx++;
+                        break;
+                    case 54:
+                        negative_arr[neg_idx] = 6;
+                        neg_idx++;
+                        break;
+                    case 55:
+                        negative_arr[neg_idx] = 7;
+                        neg_idx++;
+                        break;
+                    case 56:
+                        negative_arr[neg_idx] = 8;
+                        neg_idx++;
+                        break;
+                    case 57:
+                        negative_arr[neg_idx] = 9;
+                        neg_idx++;
+                        break;
+                }
+            }
+        } else {
+            status = false;
+            break;
+        }
+    }
+    
+    if (status) {
+//        int binary_postive_number = 0;
+//        if (pos_idx > 0) {
+//            for (int i = 0; i < pos_idx; i++) {
+//                if (positive_arr[i] > 0) {
+//                    binary_postive_number += pow(2, pos_idx - (i + 1));
+//                }
+//            }
+//        }
+//                
+//        double binary_negative_number = 0;
+//        for (int i = 1; i <= neg_idx; i++) {
+//            if (negative_arr[i - 1] > 0) {
+//                binary_negative_number += pow(2, -i);
+//            }
+//        }
+//
+//        double binary_result = 0.0;
+//        if (pos_idx == 0 && neg_idx == 0) {
+//            printf("Result: none/n");
+//        } else {
+//            binary_result = binary_postive_number + binary_negative_number;
+//            printf("Result: %.52lg\n", binary_result);
+//        }
+    } else {
+        result = 0;
+        switch (error_no) {
+            case 1:
+                printf("Number of decimal number exceed 20!!\n");
+                break;
+                
+            case 2:
+                printf("Number of decimal points exceed 20!!\n");
+                break;
+                
+            default:
+                printf("You entered invalid number!!\n");
+        }
+    }
+    
+    return result;
 }
 
 int setMainMenu(void) {
@@ -135,7 +312,7 @@ int setMainMenu(void) {
             return num;
             
         case 2:
-            num = runDecialToBinary();
+            num = runDecimalToBinary();
             return num;
             
         case 0:
