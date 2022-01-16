@@ -285,29 +285,48 @@ int runDecimalToBinary(void) {
                 }
             } while (decimal_number != 0);
             for (int i = 1; i <= pos_binary_idx; i++) {
-                result_binary[i - 1] = positive_binary[pos_binary_idx - i];
+                result_binary[result_idx++] = positive_binary[pos_binary_idx - i];
             }
         } else {
-            result_binary[0] = '0';
-            result_binary[1] = '.';
-            result_idx = 2;
+            result_binary[result_idx++] = '0';
         }
         
         if (decimal_point > 0) {
-//            int binary_number;
-//            do {
-//                binary_number = (decimal_point * pow(10, -neg_idx)) * 2;
-//                decimal_number = decimal_number / 2;
-//                if (binary_number == 0) {
-//                    positive_binary[pos_binary_idx++] = '0';
-//                } else if (binary_number == 1) {
-//                    positive_binary[pos_binary_idx++] = '1';
-//                }
-//            } while (decimal_number != 0);
-//            for (int i = 1; i <= pos_binary_idx; i++) {
-//                result_binary[i - 1] = positive_binary[pos_binary_idx - i];
-//            }
+            result_binary[result_idx++] = '.';
+    
+            int pow_num = neg_idx;
+            for (int i = 0; i < 20; i++) {
+                int temp_num = decimal_point * 2;
+
+                if (temp_num >= (int)pow(10, pow_num)) {
+                    negative_binary[neg_binary_idx++] = '1';
+                    decimal_point = temp_num - (int)pow(10, pow_num);
+                    if (decimal_point == 0) {
+                        break;
+                    }
+                    if ((decimal_point % 10) == 0) {
+                        decimal_point = decimal_point / 10;
+                    }
+                } else {
+                    negative_binary[neg_binary_idx++] = '0';
+                    decimal_point = temp_num;
+                    if ((decimal_point % 10) == 0) {
+                        decimal_point = decimal_point / 10;
+                    }
+                }
+                for (int j = 1; j < 10; j++) {
+                    if (decimal_point < pow(10, j)) {
+                        pow_num = j;
+                        break;
+                    }
+                }
+            }
+            
+            for (int i = 0; i < neg_binary_idx; i++) {                
+                result_binary[result_idx++] = negative_binary[i];
+            }
         }
+        result_binary[result_idx] = 0;
         
         if (pos_idx == 0 && neg_idx == 0) {
             printf("Result: none\n");
